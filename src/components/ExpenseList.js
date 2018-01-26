@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import numeral from 'numeral';
 import ExpenseListItem from './ExpenseListItem';
 import selectExpenses from '../selectors/expenses'; 
-import selectExpensesTotal from '../selectors/expensesTotal';
 
 export const ExpenseList = (props) => (
     <div>
@@ -18,14 +17,12 @@ export const ExpenseList = (props) => (
                 })                
             )
         }
-        <p>{`Viewing ${props.expenses.length} Totalling ${numeral(props.total / 100).format('$0,0.00')}`}</p>
     </div>
 );
 
 const mapStateToProps = (state) => {
     return {
         expenses: selectExpenses(state.expenses, state.filters),
-        total: selectExpensesTotal(selectExpenses(state.expenses, state.filters))
     };
 };
 
