@@ -1,30 +1,37 @@
 import * as firebase from 'firebase';
-import moment from 'moment';
+// import moment from 'moment';
 
 const config = {
-    apiKey: "AIzaSyDasNNaxtLG63-uCYvtfYBHiYEaBd46bPs",
-    authDomain: "expensify-8b37f.firebaseapp.com",
-    databaseURL: "https://expensify-8b37f.firebaseio.com",
-    projectId: "expensify-8b37f",
-    storageBucket: "expensify-8b37f.appspot.com",
-    messagingSenderId: "337759665194"
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_ENDER_ID
 };
 
 firebase.initializeApp(config); 
 
 const database = firebase.database();
 
-database.ref('expenses').on('child_removed', (snapshot) => {
-    console.log(snapshot.key, snapshot.val());
-});
+export { firebase, database as default }; 
 
-database.ref('expenses').on('child_changed', (snapshot) => {
-    console.log(snapshot.key, snapshot.val());
-});
 
-database.ref('expenses').on('child_added', (snapshot) => {
-    console.log(snapshot.key, snapshot.val());
-});
+
+
+
+
+// database.ref('expenses').on('child_removed', (snapshot) => {
+//     console.log(snapshot.key, snapshot.val());
+// });
+
+// database.ref('expenses').on('child_changed', (snapshot) => {
+//     console.log(snapshot.key, snapshot.val());
+// });
+
+// database.ref('expenses').on('child_added', (snapshot) => {
+//     console.log(snapshot.key, snapshot.val());
+// });
 
 
 // database.ref('expenses').on('value', (snapshot) => {
