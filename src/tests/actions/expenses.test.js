@@ -6,7 +6,8 @@ import {
     editExpense, 
     removeExpense,
     setExpenses,
-    startSetExpenses 
+    startSetExpenses, 
+    startRemoveExpense
 } from '../../actions/expenses';
 import expenses from '../fixture/expenses';
 import database from '../../firebase/firebase'; 
@@ -32,6 +33,22 @@ test('should setup remove expense action object', () => {
     //     type: 'REMOVE_EXPENSE',
     //     id: '123abc'
     // });
+});
+
+test('should remove expenses from firebase', (done) => {
+    const store = createMockStore({}); 
+    store.dispatch(startRemoveExpense(expenses[1]))
+        .then(() => {
+            const actions = store.getActions(); 
+            expect(actions[0]).toEqual({
+                type: 'REMOVE_EXPENSE',
+                id: expenses[1].id
+            });
+            return database.ref(`expenses/${expenses[1].id}`).once('value');
+        }).then((snapshot) => {
+            expect(snapshot.val()).toBeFalsy();
+            done();
+        });
 });
 
 test('editExpense 는 type, id, updates를 action으로 보내야한다.', () => {
@@ -125,6 +142,7 @@ test('should fetch the expenses from firebase', (done) => {
     });
 
 });
+
 
 // test('should setup add expense action object with default values', () => {
 //     const action = addExpense();
