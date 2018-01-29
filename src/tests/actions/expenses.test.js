@@ -7,7 +7,8 @@ import {
     removeExpense,
     setExpenses,
     startSetExpenses, 
-    startRemoveExpense
+    startRemoveExpense,
+    startEditExpense
 } from '../../actions/expenses';
 import expenses from '../fixture/expenses';
 import database from '../../firebase/firebase'; 
@@ -61,6 +62,39 @@ test('editExpense 는 type, id, updates를 action으로 보내야한다.', () =>
         } 
     });
 });
+
+test('should edit expenses from firebase', (done) => {
+    const store = createMockStore({});
+    const id = expenses[2].id; 
+    const updates = {
+        description: 'new updates',
+        note: 'hi im updates'
+    }
+    store.dispatch(startEditExpense(id, updates))
+        .then(() => {            
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
+                type: 'EDIT_EXPENSE',
+                id,
+                updates: {
+                    description: 'new updates',
+                    note: 'hi im updates'
+                }
+            });
+            
+            return database.ref(`expenses/${id}`).once('value');
+        }).then((snapshot) => {
+            expect(snapshot.val()).toEqual({
+                description: 'new updates',
+                note: 'hi im updates',
+                amount: expect.any(Number),
+                createdAt: expect.any(Number)
+            });
+            done();
+        });
+        
+});
+
 
 test('should setup add Expense action object with provided values', () => {
     const action = addExpense(expenses[2]);
@@ -142,6 +176,7 @@ test('should fetch the expenses from firebase', (done) => {
     });
 
 });
+
 
 
 // test('should setup add expense action object with default values', () => {
