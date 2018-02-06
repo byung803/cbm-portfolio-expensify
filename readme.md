@@ -9,3 +9,4 @@ git remote - origin 확인
 git remote -v - ssh로 추가해준 url 나옴 
 git push -u origin master - 처음 1번 
 git push - 그 다음부터 사용
+git remote add [name] [url]
