@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'; 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 if (process.env.NODE_ENV === 'test') {
     require('dotenv').config({ path: '.env.test' });
@@ -14,10 +14,10 @@ if (process.env.NODE_ENV === 'test') {
 
 module.exports = (env) => {
     const isProduction = env === 'production';
-    const CSSExtract = new ExtractTextPlugin('styles.css'); 
+    const CSSExtract = new ExtractTextPlugin('styles.css');
 
     return {
-        entry: './src/app.js',
+        entry: ['babel-polyfill', './src/app.js'],
         output: {
             path: path.join(__dirname, 'public', 'dist'),
             filename: 'bundle.js'
@@ -27,7 +27,7 @@ module.exports = (env) => {
                 loader: 'babel-loader', // 사용할 모듈 
                 test: /\.js$/,          // 모듈이 확인할 파일, regExp
                 exclude: /node_modules/ // 모듈이 배제할 내용. node_module
-            },{             
+            }, {
                 test: /\.s?css$/,
                 use: CSSExtract.extract({
                     use: [

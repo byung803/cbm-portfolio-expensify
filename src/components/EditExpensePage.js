@@ -5,7 +5,7 @@ import { startEditExpense, startRemoveExpense } from '../actions/expenses'
 
 export class EditExpensePage extends React.Component {
     onSubmit = (expense) => {
-        this.props.startEditExpense(this.props.expense.id,expense);
+        this.props.startEditExpense(this.props.expense.id, expense);
         this.props.history.push('/');
     }
 
@@ -15,17 +15,25 @@ export class EditExpensePage extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <div>
-                <ExpenseForm 
-                    expense={this.props.expense}
-                    onSubmit={this.onSubmit}
-                />
-                <button
-                    onClick={this.onRemove}
-                >
-                    Remove
-                </button>
+                <div className="page-header">
+                    <div className="content-container">
+                        <h1 className="page-header__title">Edit Expense</h1>
+                    </div>
+                </div>
+                <div className="content-container">
+                    <ExpenseForm
+                        expense={this.props.expense}
+                        onSubmit={this.onSubmit}
+                    />
+                    <button
+                        className="button button--secondary"
+                        onClick={this.onRemove}
+                    >
+                        Remove Expense
+                    </button>
+                </div>
             </div>
         );
     }
@@ -33,7 +41,7 @@ export class EditExpensePage extends React.Component {
 
 
 const mapStateToProps = (state, props) => {
-    return{
+    return {
         expense: state.expenses.find((expense) => expense.id === props.match.params.id)
     };
 };
@@ -43,4 +51,4 @@ const mapDispatchToProps = (dispatch) => ({
     startRemoveExpense: (expense) => dispatch(startRemoveExpense(expense))
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(EditExpensePage);
+export default connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);
