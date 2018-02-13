@@ -5,7 +5,7 @@ import ExpenseListItem from './ExpenseListItem';
 import selectExpenses from '../selectors/expenses';
 
 export const ExpenseList = (props) => (
-    <div class="content-container">
+    <div className="content-container">
         <div className="list-header">
             <div className="show-for-mobile">Expenses</div>
             <div className="show-for-desktop">Expense</div>
