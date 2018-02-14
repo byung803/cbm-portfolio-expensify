@@ -2,16 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
 import { startEditExpense, startRemoveExpense } from '../actions/expenses'
+import RemoveModal from './RemoveModal';
 
 export class EditExpensePage extends React.Component {
+    state = {
+        modalToggler: false
+    }
+
     onSubmit = (expense) => {
         this.props.startEditExpense(this.props.expense.id, expense);
         this.props.history.push('/');
     }
 
-    onRemove = () => {
-        this.props.startRemoveExpense(this.props.expense);
-        this.props.history.push('/');
+    openModal = () => {
+        this.setState(() => ({ modalToggler: true }));
+        // this.props.startRemoveExpense(this.props.expense);
+        // this.props.history.push('/');
+    }
+
+    closeModal = () => {
+        this.setState(() => ({ modalToggler: false }));
     }
 
     render() {
@@ -29,10 +39,16 @@ export class EditExpensePage extends React.Component {
                     />
                     <button
                         className="button button--secondary"
-                        onClick={this.onRemove}
+                        onClick={this.openModal}
                     >
                         Remove Expense
                     </button>
+                    <RemoveModal
+                        modalToggler={this.state.modalToggler}
+                        closeModal={this.closeModal}
+                        expense={this.props.expense}
+                        history={this.props.history}
+                    />
                 </div>
             </div>
         );
